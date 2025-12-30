@@ -1,0 +1,407 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>優雅美體 | 個人工作室</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+TC:wght@400;700&family=Noto+Sans+TC:wght@300;400;500&display=swap" rel="stylesheet">
+    
+    <!-- 引入 FullCalendar 6 CDN -->
+    <script src="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.10/index.global.min.js"></script>
+    
+    <style>
+        body {
+            font-family: 'Noto Sans TC', sans-serif;
+            background-color: #fdf8f6;
+        }
+        .serif { font-family: 'Noto Serif TC', serif; }
+        .hero-gradient {
+            background: linear-gradient(rgba(253, 248, 246, 0.7), rgba(253, 248, 246, 0.7)), 
+                        url('https://images.unsplash.com/photo-1544161515-4ab6ce6db874?auto=format&fit=crop&q=80&w=2070');
+            background-size: cover;
+            background-position: center;
+        }
+        .glass-card {
+            background: rgba(255, 255, 255, 0.8);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+        }
+        .animate-fade-in {
+            animation: fadeIn 1.5s ease-out forwards;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* 日曆深度美化與整合 */
+        .calendar-container {
+            background: white;
+            border-radius: 1.5rem;
+            padding: 1.5rem;
+            border: 1px solid #ffe4e6;
+        }
+        .fc {
+            --fc-border-color: #fff1f2;
+            --fc-button-bg-color: #fff;
+            --fc-button-border-color: #fecdd3;
+            --fc-button-text-color: #9f1239;
+            --fc-button-hover-bg-color: #fff1f2;
+            --fc-button-active-bg-color: #ffe4e6;
+            --fc-today-bg-color: #fff1f2;
+        }
+        .fc .fc-toolbar-title {
+            font-size: 1.1rem !important;
+            font-weight: 700;
+            color: #881337;
+        }
+        .fc-timegrid-slot {
+            height: 4rem !important;
+        }
+        .break-time-bg {
+            background: repeating-linear-gradient(45deg, #fff1f2, #fff1f2 10px, #ffffff 10px, #ffffff 20px) !important;
+            opacity: 0.6;
+        }
+        .legend-dot {
+            width: 10px;
+            height: 10px;
+            border-radius: 2px;
+            display: inline-block;
+            margin-right: 4px;
+        }
+    </style>
+</head>
+<body class="text-gray-800">
+
+    <!-- Navigation -->
+    <nav class="fixed w-full z-50 bg-white/80 backdrop-blur-md shadow-sm">
+        <div class="max-w-7xl mx-auto px-6 py-4 flex justify-between items-center">
+            <div class="text-2xl font-bold text-rose-800 serif">優雅美體 Studio</div>
+            <div class="hidden md:flex space-x-8 font-medium">
+                <a href="#about" class="hover:text-rose-600 transition">品牌理念</a>
+                <a href="#services" class="hover:text-rose-600 transition">專業課程</a>
+                <a href="#booking" class="hover:text-rose-600 transition text-rose-700">線上預約</a>
+                <a href="#contact" class="hover:text-rose-600 transition">聯絡資訊</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <header class="h-screen hero-gradient flex items-center justify-center text-center px-6">
+        <div class="max-w-3xl animate-fade-in">
+            <h1 class="text-4xl md:text-6xl font-bold text-rose-900 serif mb-6">體態漂亮，<br>源自於日常的保養。</h1>
+            <p class="text-lg md:text-xl text-gray-700 leading-relaxed mb-8">
+                給予身體最純粹的寵愛。透過專業體雕技術，改善循環、提升代謝，讓健康與線條並存。
+            </p>
+            <a href="#booking" class="bg-rose-700 text-white px-8 py-4 rounded-full text-lg font-medium hover:bg-rose-800 transition-all shadow-lg">
+                預約專屬時光
+            </a>
+        </div>
+    </header>
+
+    <!-- Philosophy Section -->
+    <section id="about" class="py-24 px-6 bg-white">
+        <div class="max-w-5xl mx-auto flex flex-col md:flex-row items-center gap-12">
+            <div class="md:w-1/2">
+                <img src="https://images.unsplash.com/photo-1519823551278-64ac92734fb1?auto=format&fit=crop&q=80&w=1000" 
+                     alt="[美體概念圖]" 
+                     class="rounded-2xl shadow-2xl">
+            </div>
+            <div class="md:w-1/2">
+                <h2 class="text-3xl font-bold text-rose-900 serif mb-6">為什麼選擇定期體雕？</h2>
+                <div class="space-y-6 text-gray-700 text-lg leading-relaxed">
+                    <div class="flex items-start gap-4">
+                        <span class="bg-rose-100 p-2 rounded-full text-rose-700"><i class="fas fa-sync-alt"></i></span>
+                        <p><strong>改善循環與提升代謝：</strong> 喚醒沉睡的身體機能，讓循環重回順暢節奏。</p>
+                    </div>
+                    <div class="flex items-start gap-4">
+                        <span class="bg-rose-100 p-2 rounded-full text-rose-700"><i class="fas fa-tint"></i></span>
+                        <p><strong>排出多餘水分：</strong> 擺脫浮腫感，讓身心感到前所未有的輕盈。</p>
+                    </div>
+                    <div class="flex items-start gap-4">
+                        <span class="bg-rose-100 p-2 rounded-full text-rose-700"><i class="fas fa-magic"></i></span>
+                        <p><strong>打造漂亮線條：</strong> 精準雕塑部位，讓身體展現自信的迷人曲線。</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Services Grid -->
+    <section id="services" class="py-24 px-6 bg-rose-50/50">
+        <div class="max-w-7xl mx-auto text-center">
+            <h2 class="text-3xl font-bold text-rose-900 serif mb-16">專業美體服務</h2>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-10">
+                <div class="bg-white p-8 rounded-2xl shadow-sm hover:shadow-xl transition">
+                    <i class="fas fa-leaf text-4xl text-rose-400 mb-6"></i>
+                    <h3 class="text-xl font-bold mb-4">全身代謝循環</h3>
+                    <p class="text-gray-600">針對久坐久站族群，深層釋放壓力，提升體內代謝率。</p>
+                </div>
+                <div class="bg-white p-8 rounded-2xl shadow-sm hover:shadow-xl transition">
+                    <i class="fas fa-hand-sparkles text-4xl text-rose-400 mb-6"></i>
+                    <h3 class="text-xl font-bold mb-4">精準曲線雕塑</h3>
+                    <p class="text-gray-600">聚焦腰、腹、腿部，以專業手法打造緊緻的身體輪廓。</p>
+                </div>
+                <div class="bg-white p-8 rounded-2xl shadow-sm hover:shadow-xl transition">
+                    <i class="fas fa-spa text-4xl text-rose-400 mb-6"></i>
+                    <h3 class="text-xl font-bold mb-4">淋巴引流排水</h3>
+                    <p class="text-gray-600">舒緩腫脹感，幫助身體排出不需要的多餘水分。</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Booking Section with Calendar -->
+    <section id="booking" class="py-24 px-6">
+        <div class="max-w-6xl mx-auto">
+            <div class="text-center mb-12">
+                <h2 class="text-3xl font-bold text-rose-900 serif">預約專屬時段</h2>
+                <p class="text-gray-600 mt-2">選擇合適的時間，開啟您的美體行程</p>
+                <!-- 授權連結 -->
+                <div class="mt-4">
+                    <a id="auth-link" href="#" class="text-xs text-rose-400 hover:text-rose-600 underline">管理員授權登入</a>
+                </div>
+            </div>
+
+            <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+                <!-- 左側：日曆查詢 -->
+                <div class="lg:col-span-2">
+                    <div class="flex gap-4 mb-4 text-xs text-gray-500 justify-center lg:justify-start">
+                        <span><span class="legend-dot bg-gray-200"></span> 忙碌/已過期</span>
+                        <span><span class="legend-dot break-time-bg border border-rose-100"></span> 休息時間</span>
+                        <span><span class="legend-dot bg-rose-500"></span> 您的選擇</span>
+                    </div>
+                    <div class="calendar-container shadow-xl">
+                        <div id="calendar"></div>
+                    </div>
+                </div>
+
+                <!-- 右側：預約資料填寫 -->
+                <div class="lg:col-span-1">
+                    <div class="glass-card rounded-3xl p-8 shadow-xl h-full border border-rose-100">
+                        <h3 class="text-xl font-bold text-rose-900 serif mb-6">填寫資料</h3>
+                        <form id="bookingForm" onsubmit="handleBooking(event)" class="space-y-4">
+                            <div class="space-y-1">
+                                <label class="text-sm font-medium">預約時段</label>
+                                <input type="text" id="selectedTimeDisplay" readonly required placeholder="請點選左側日曆時段" 
+                                    class="w-full px-4 py-3 rounded-xl border border-rose-100 bg-rose-50/30 text-rose-800 font-medium focus:outline-none">
+                            </div>
+                            <div class="space-y-1">
+                                <label class="text-sm font-medium">姓名</label>
+                                <input type="text" required placeholder="您的稱呼" class="w-full px-4 py-3 rounded-xl border border-rose-100 focus:outline-none focus:ring-2 focus:ring-rose-500">
+                            </div>
+                            <div class="space-y-1">
+                                <label class="text-sm font-medium">聯絡電話</label>
+                                <input type="tel" required placeholder="09XX-XXX-XXX" class="w-full px-4 py-3 rounded-xl border border-rose-100 focus:outline-none focus:ring-2 focus:ring-rose-500">
+                            </div>
+                            <div class="space-y-1">
+                                <label class="text-sm font-medium">感興趣的課程</label>
+                                <select class="w-full px-4 py-3 rounded-xl border border-rose-100 focus:outline-none focus:ring-2 focus:ring-rose-500">
+                                    <option>全身代謝循環</option>
+                                    <option>精準曲線雕塑</option>
+                                    <option>淋巴引流排水</option>
+                                    <option>首次體驗諮詢</option>
+                                </select>
+                            </div>
+                            <div class="space-y-1">
+                                <label class="text-sm font-medium">備註說明</label>
+                                <textarea placeholder="是否有特定想改善的部位？" rows="3" class="w-full px-4 py-3 rounded-xl border border-rose-100 focus:outline-none focus:ring-2 focus:ring-rose-500"></textarea>
+                            </div>
+                            <button type="submit" class="w-full bg-rose-700 text-white py-4 rounded-xl font-bold hover:bg-rose-800 transition shadow-lg mt-4">
+                                確認提交預約
+                            </button>
+                        </form>
+                        <div id="successMessage" class="hidden p-6 bg-green-50 text-green-700 rounded-2xl text-center border border-green-100">
+                            <i class="fas fa-check-circle text-3xl mb-3"></i>
+                            <p class="font-bold text-lg">預約成功！</p>
+                            <p class="text-sm mt-2">我會儘快透過電話與您聯繫確認。</p>
+                            <button onclick="location.reload()" class="mt-4 text-xs underline">再次預約</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact & Footer -->
+    <footer id="contact" class="bg-rose-900 text-rose-50 py-16 px-6">
+        <div class="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-3 gap-12">
+            <div>
+                <h3 class="text-2xl font-bold serif mb-6">優雅美體 Studio</h3>
+                <p class="text-rose-200 leading-relaxed mb-6">
+                    一對一預約制工作室，<br>
+                    給您最私密且放鬆的變美空間。
+                </p>
+                <div class="flex space-x-4">
+                    <a href="#" class="text-2xl hover:text-white"><i class="fab fa-line"></i></a>
+                    <a href="#" class="text-2xl hover:text-white"><i class="fab fa-instagram"></i></a>
+                    <a href="#" class="text-2xl hover:text-white"><i class="fab fa-facebook"></i></a>
+                </div>
+            </div>
+            <div>
+                <h4 class="text-xl font-bold mb-6">聯絡資訊</h4>
+                <ul class="space-y-4 text-rose-200">
+                    <li><i class="fas fa-map-marker-alt mr-3"></i> 台北市大安區美麗路 88 號</li>
+                    <li><i class="fas fa-phone mr-3"></i> 02-2345-6789</li>
+                    <li><i class="fas fa-envelope mr-3"></i> hello@elegancebody.com</li>
+                    <li><i class="fas fa-clock mr-3"></i> 週一至週六 10:00 - 20:00 (預約制)</li>
+                </ul>
+            </div>
+            <div>
+                <h4 class="text-xl font-bold mb-6">服務據點</h4>
+                <div class="rounded-xl overflow-hidden h-48 bg-rose-800 flex items-center justify-center">
+                    <span class="text-rose-300 italic">[ 此處顯示 Google 地圖預覽 ]</span>
+                </div>
+            </div>
+        </div>
+        <div class="max-w-7xl mx-auto border-t border-rose-800 mt-12 pt-8 text-center text-sm text-rose-300">
+            &copy; 2024 優雅美體工作室. All rights reserved.
+        </div>
+    </footer>
+
+    <script>
+        const baseUrl = 'https://mysite-e425.onrender.com';
+        let currentCalendar = null;
+
+        document.addEventListener('DOMContentLoaded', function() {
+            // 更新授權連結
+            const authLink = document.getElementById('auth-link');
+            if (authLink) authLink.href = `${baseUrl}/authorize`;
+
+            initCalendar();
+        });
+
+        function initCalendar() {
+            const calendarEl = document.getElementById('calendar');
+            const now = new Date();
+
+            const minDate = new Date();
+            minDate.setDate(now.getDate() - 2);
+            minDate.setHours(0, 0, 0, 0);
+
+            const maxDate = new Date();
+            maxDate.setDate(now.getDate() + 30);
+
+            const calendar = new FullCalendar.Calendar(calendarEl, {
+                initialView: 'timeGrid',
+                validRange: { start: minDate, end: maxDate },
+                views: { timeGrid: { dayCount: 4 } }, // 行動端優化，減少顯示天數
+                windowResize: function(view) {
+                    if (window.innerWidth < 768) {
+                        calendar.setOption('views', { timeGrid: { dayCount: 3 } });
+                    } else {
+                        calendar.setOption('views', { timeGrid: { dayCount: 5 } });
+                    }
+                },
+                locale: 'zh-tw',
+                slotMinTime: '08:00:00',
+                slotMaxTime: '21:00:00',
+                slotDuration: '01:00:00',
+                allDaySlot: false,
+                selectable: true,
+                nowIndicator: true,
+                headerToolbar: {
+                    left: 'prev,next today',
+                    center: 'title',
+                    right: ''
+                },
+
+                events: function(info, successCallback, failureCallback) {
+                    const timestamp = new Date().getTime();
+                    const url = `${baseUrl}/api/get-slots?_=${timestamp}&start=${info.startStr}&end=${info.endStr}`;
+                    
+                    fetch(url)
+                        .then(response => response.json())
+                        .then(data => successCallback(data))
+                        .catch(error => {
+                            console.error('Fetch slots error:', error);
+                            // 即使失敗也回傳空陣列，避免卡住
+                            successCallback([]);
+                        });
+                },
+
+                eventSources: [
+                    {
+                        events: [
+                            {
+                                groupId: 'lunchBreak',
+                                daysOfWeek: [0,1,2,3,4,5,6],
+                                startTime: '12:00:00',
+                                endTime: '13:00:00',
+                                display: 'background',
+                                classNames: ['break-time-bg']
+                            }
+                        ]
+                    }
+                ],
+
+                select: function(info) {
+                    const selectStart = info.start;
+                    const selectEnd = info.end;
+                    
+                    if (selectStart.getHours() === 12 || (selectStart.getHours() < 12 && selectEnd.getHours() > 12)) {
+                        alert('12:00 - 13:00 為休息時間。');
+                        calendar.unselect();
+                        return;
+                    }
+
+                    if (selectStart < now) {
+                        alert('無法預約過去的時間。');
+                        calendar.unselect();
+                        return;
+                    }
+
+                    // 更新右側表單顯示
+                    const dateStr = selectStart.toLocaleDateString('zh-TW', { month: 'long', day: 'numeric' });
+                    const timeStr = selectStart.toLocaleTimeString('zh-TW', { hour: '2-digit', minute: '2-digit', hour12: false });
+                    document.getElementById('selectedTimeDisplay').value = `${dateStr} ${timeStr}`;
+                    
+                    // 清除之前的選取標記
+                    calendar.getEvents().forEach(event => {
+                        if (event.title === '您的選取') event.remove();
+                    });
+
+                    // 加入視覺回饋
+                    calendar.addEvent({
+                        title: '您的選取',
+                        start: info.start,
+                        end: info.end,
+                        color: '#be123c', // rose-700
+                        allDay: false
+                    });
+                    
+                    calendar.unselect();
+                }
+            });
+
+            calendar.render();
+            currentCalendar = calendar;
+        }
+
+        function handleBooking(event) {
+            event.preventDefault();
+            const timeVal = document.getElementById('selectedTimeDisplay').value;
+            if (!timeVal) {
+                alert('請先在日曆上選擇預約時段');
+                return;
+            }
+            
+            // 模擬提交
+            document.getElementById('bookingForm').classList.add('hidden');
+            document.getElementById('successMessage').classList.remove('hidden');
+        }
+
+        // Smooth scroll for nav links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                document.querySelector(this.getAttribute('href')).scrollIntoView({
+                    behavior: 'smooth'
+                });
+            });
+        });
+    </script>
+</body>
+</html>
